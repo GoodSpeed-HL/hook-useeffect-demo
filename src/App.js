@@ -18,7 +18,8 @@ function App() {
       data[i] = {
         id: i + 1,
         name: faker.name.firstName() + " " + faker.name.lastName(),
-        address: faker.finance.bitcoinAddress()
+        address: faker.finance.bitcoinAddress(),
+        process: 0
       }
     }
     console.log(data)
@@ -27,16 +28,25 @@ function App() {
 
   const refreshData = (id = null) => {
     console.log(id)
-    for(let i = 0; i < 200 ; i++){
-      let id = (Math.random()*800).toFixed(0);
-      data[id ] = {
+    for(let i = 0; i < 300 ; i++){
+      let id = (Math.random()*990).toFixed(0);
+      data[id] = {
         ...data[id],
-        address: faker.finance.bitcoinAddress()
+        address: faker.finance.bitcoinAddress(),
+        process: data[id].process + faker.random.number(5)
       }
     }
     setData([...data]);
   }
 
+  const addNew = () => {
+    setData([...data, {
+      id: data.length + 1,
+      name: faker.name.firstName() + " " + faker.name.lastName(),
+      address: faker.finance.bitcoinAddress(),
+      process: 0
+    }])
+  }
 
 
   useEffect(() => {
@@ -47,8 +57,14 @@ function App() {
     return null;
   }
 
+
   return (
-    <TestList data={data} refresh={refreshData} />
+      <div>
+
+        <TestList data={data}  refresh={refreshData} addNew={addNew}/>
+
+      </div>
+
   );
 }
 
